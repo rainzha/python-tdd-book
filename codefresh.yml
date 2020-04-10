@@ -1,0 +1,27 @@
+version: '1.0'
+stages:
+  - prepare
+  - build
+  - test
+steps:
+  main_clone:
+    title: Cloning main repository...
+    stage: prepare
+    type: git-clone
+    repo: 'rainzha/python-tdd-book'
+    revision: master
+    git: github
+  build_image:
+    title: Building Docker Image
+    stage: build
+    type: build
+    image_name: superlists
+    working_directory: ./
+    tag: master
+    dockerfile: Dockerfile
+  test_image:
+    title: Running functional tests
+    stage: test
+    image: '${{build_image}}'
+    commands:
+      - python -m unittest functional_tests
