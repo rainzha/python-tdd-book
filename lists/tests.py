@@ -1,4 +1,3 @@
-from django.http import HttpRequest
 from django.test import TestCase
 from django.urls import resolve
 
@@ -12,9 +11,9 @@ class HomePageTest(TestCase):
         self.assertEqual(found.func, home_page)
 
     def test_home_page_returns_correct_html(self):
-        request = HttpRequest()
-        response = home_page(request)
+        response = self.client.get('/')
         html = response.content.decode('utf-8')
+        self.assertEqual(response.status_code, 200)
         self.assertTrue(html.startswith('<html>'))
         self.assertIn('<title>To-Do lists</title>', html)
         self.assertTrue(html.endswith('</html>'))
