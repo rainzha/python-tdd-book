@@ -20,8 +20,8 @@ steps:
     tag: master
     dockerfile: Dockerfile
   test_image:
-    title: Running functional tests
+    title: Running unit tests
     stage: test
     image: '${{build_image}}'
     commands:
-      - python -m unittest functional_tests
+      - python manage.py test
